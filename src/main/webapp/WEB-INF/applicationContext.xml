@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                           http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+   	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+
+    <bean id="userService" class="com.kartikshah.service.SampleServiceImpl" />
+
+    <jaxws:endpoint id="userServiceEndpoint" implementor="#userService" address="/UserService"/>
+
+    <jaxrs:server id="user_rest" address="/UserRestService">
+      <jaxrs:serviceBeans>
+        <bean class="com.kartikshah.service.SampleServiceImpl"/>
+      </jaxrs:serviceBeans>
+
+      <jaxrs:providers>
+        <ref bean="jaxbProviderSoap"/>
+        <ref bean="jsonProvider" />
+        <ref bean="wadlG"/>
+      </jaxrs:providers>
+    </jaxrs:server>
+
+    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider"/>
+    <bean id="jaxbProviderSoap" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider"/>
+    <bean id="wadlG" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+                    <property name="linkAnyMediaTypeToXmlSchema" value="true" />
+                    <property name="useJaxbContextForQnames" value="true" />
+                    <property name="ignoreMessageWriters" value="true" />
+                    <property name="addResourceAndMethodIds" value="true" />
+                </bean>
+
+    <!--bean id="jaxrs-data-binding" class="org.apache.cxf.jaxrs.provider.JAXRSDataBinding">
+        <property name="provider" ref="jsonProvider"/>
+    </bean-->
+</beans>
