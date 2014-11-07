@@ -16,28 +16,35 @@
 
     <jaxws:endpoint id="userServiceEndpoint" implementor="#userService" address="/UserService"/>
 
-    <jaxrs:server id="user_rest" address="/UserRestService">
+    <jaxrs:server id="user_rest" address="/rest/UserRestService">
       <jaxrs:serviceBeans>
         <bean class="com.kartikshah.service.SampleServiceImpl"/>
       </jaxrs:serviceBeans>
 
       <jaxrs:providers>
-        <ref bean="jaxbProviderSoap"/>
-        <ref bean="jsonProvider" />
+        <ref bean="jsonProvider"/>
         <ref bean="wadlG"/>
       </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider"/>
+    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+        <property name="inTransformElements">
+                    <map>
+                      <!-- drop the namespace from "book" -->
+                      <entry key="userCredential" value="{com.kartikshah.dto}userCredential"/>
+                    </map>
+        </property>
+    </bean>
     <bean id="jaxbProviderSoap" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider"/>
-    <bean id="wadlG" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
-                    <property name="linkAnyMediaTypeToXmlSchema" value="true" />
-                    <property name="useJaxbContextForQnames" value="true" />
-                    <property name="ignoreMessageWriters" value="true" />
-                    <property name="addResourceAndMethodIds" value="true" />
-                </bean>
 
-    <!--bean id="jaxrs-data-binding" class="org.apache.cxf.jaxrs.provider.JAXRSDataBinding">
+    <bean id="wadlG" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+        <property name="linkAnyMediaTypeToXmlSchema" value="true" />
+        <property name="useJaxbContextForQnames" value="true" />
+        <property name="ignoreMessageWriters" value="true" />
+        <property name="addResourceAndMethodIds" value="true" />
+    </bean>
+
+    <bean id="jaxrs-data-binding" class="org.apache.cxf.jaxrs.provider.JAXRSDataBinding">
         <property name="provider" ref="jsonProvider"/>
-    </bean-->
+    </bean>
 </beans>

@@ -13,7 +13,6 @@ import javax.xml.ws.BindingType;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name =  "user", namespace="com.kartikshah.dto")
-
 public class User {
     private String firstName;
     private String lastName;
@@ -55,7 +54,7 @@ public class User {
         this.address = address;
     }
 
-    @XmlElement(name = "userCredentials")
+    @XmlElement(name = "userCredential")
     public UserCredential getUserCredential() {
         return userCredential;
     }

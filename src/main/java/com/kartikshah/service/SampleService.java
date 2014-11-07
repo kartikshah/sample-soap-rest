@@ -1,5 +1,6 @@
 package com.kartikshah.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kartikshah.dto.User;
 import com.kartikshah.dto.UserCredential;
 import org.apache.cxf.jaxrs.model.wadl.Description;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlElement;
  * To change this template use File | Settings | File Templates.
  */
 
-@Path("/UserRestService")
+@Path("/")
 @WebService
 public interface SampleService
 {
@@ -41,7 +42,7 @@ public interface SampleService
     @Produces({MediaType.APPLICATION_JSON})
     @WebMethod(operationName = "loginWithRole")
     public @WebResult(name = "user") User loginWithRole(
-        @WebParam(name = "userCredential") @XmlElement(required = true) UserCredential userCredentials,
+        @WebParam(name = "userCredential") @XmlElement(required = true) UserCredential userCredential,
         @WebParam(name = "role") @XmlElement(required = true) String role
     );
 
