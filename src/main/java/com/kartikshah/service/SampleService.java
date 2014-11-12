@@ -1,6 +1,5 @@
 package com.kartikshah.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kartikshah.dto.User;
 import com.kartikshah.dto.UserCredential;
 import org.apache.cxf.jaxrs.model.wadl.Description;
